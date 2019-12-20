@@ -1,0 +1,272 @@
+/* 
+ * = CSS custom properties
+ * --These can be used to quickly modify the page styles
+ */
+ :root {
+  --page-width: 1200px;
+  --page-min-width: 360px;
+  --font-stack: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --theme-font-color: #333;
+  --theme-neutral-color: #eee;
+  --theme-primary-color: #00ACC1;
+  --theme-secondary-color: #fff;
+  --border-radius: 2px;
+  --shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  --spacing-medium: 20px;
+  --specing-large: 40px;
+}
+
+/* = base body styles */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--theme-neutral-color);
+  min-width: var(--page-min-width);
+  color: var(--theme-font-color);
+  font-family: var(--font-stack);
+}
+
+/* = button element */
+button {
+  box-sizing: border-box;
+  display: inline-block;
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  background-color: var(--theme-primary-color);
+  cursor: pointer;
+  padding: 15px 10px 13px 10px;
+  min-width: 130px;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--theme-secondary-color);
+  font-family: var(--font-stack);
+  font-size: 0.8rem;
+}
+
+/* = outer wrapper for the page
+ * -- used to control the width and left|center|right alignment
+ */
+.wrapper {
+  margin: 0 auto;
+  max-width: var(--page-width);
+
+  >header {
+    text-align: center;
+  }
+
+  >footer {
+    margin-bottom: var(--specing-large);
+  }
+}
+
+
+
+/* = styles for pagination elements
+ * -- includes a modification for the button element
+ */
+.pagination {
+  text-align: center;
+
+  .buttons-wrap {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+
+    button {
+      margin: 0 var(--spacing-medium);
+    }
+  }
+
+  /* = Page indicator: displays which page number the user is on */
+  .page-indicator {
+    margin-top: var(--spacing-medium);
+    opacity: 0.65;
+    font-size: 0.8rem
+  }
+}
+
+/* = styles for the list of characters
+ * -- includes styles for each character card 
+ */
+.cards-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(auto, 360px));
+  justify-content: center;
+  padding: var(--specing-large);
+  color: var(--theme-font-color);
+  gap: var(--specing-large);
+
+  /* = Character card styles */
+  .card {
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr;
+    align-content: baseline;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    background-color: var(--theme-secondary-color);
+    overflow: hidden;
+  }
+
+  .card .image-wrap {
+    position: relative;
+    padding-bottom: 100%;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .card .image-wrap img {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card .detail-wrap {
+    padding: 0;
+  }
+
+  .card .detail-wrap .character-detail {
+    padding: var(--spacing-medium);
+  }
+
+  .card .detail-wrap .character-detail h2 {
+    margin-top: 0;
+  }
+
+  .card .label {
+    display: block;
+    opacity: 0.65;
+    min-width: 80px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: normal;
+  }
+
+  .card .label+span {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+
+  .card .origin-wrap,
+  .card .episodes-wrap {
+    margin: 0;
+    padding: var(--spacing-medium);
+
+    .msg {
+      opacity: 0.65;
+      font-size: 0.85rem;
+    }
+
+    ul,li {
+      list-style: none;
+      padding:0;
+      margin:0;
+    }
+
+    li{
+      line-height: 1.5;
+      padding: 5px 20px;
+      margin: 0 -20px;
+      border-bottom:1px solid var(--theme-neutral-color);
+      &:last-child{
+        border: none;
+      }
+    }
+
+    > h3{
+      margin-top: 0;
+    }
+  }
+
+  .toggle {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--theme-primary-color);
+    color: var(--theme-secondary-color);
+    border-bottom: 1px solid var(--theme-secondary-color);
+    cursor: pointer;
+    transition: all ease 300ms;
+
+    &.close::before{
+      content:'\f00d';
+      font-family: 'FontAwesome';
+      font-size: 1.1rem;  
+    } 
+
+    &::after{
+      content:'\f054';
+      font-family: 'FontAwesome';
+      font-size: 0.9rem;
+      transition: all ease 300ms;
+    }
+
+    &.close::after{
+     transform: rotate(90deg);
+    }    
+  }
+
+  /* = option for dead charcters */
+  .card[data-status="dead"] {
+
+    .image-wrap::after,
+    .image-wrap::before {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transform-origin: center;
+      z-index: 2;
+      margin: auto;
+      border-radius: 10px;
+      background-color: red;
+      width: 100%;
+      height: 15px;
+      content: '';
+    }
+
+    .image-wrap::before {
+      transform: rotate(-45deg);
+    }
+
+    .image-wrap::after {
+      transform: rotate(45deg);
+    }
+
+    .label.status+span {
+      color: red;
+    }
+
+    .image-wrap img {
+      filter: grayscale(1);
+    }
+  }
+}
+
+/* = Media Queries */ 
+/* -- Applies to screens smaller than 960 px */
+@media screen and (max-width:960px) {
+  .cards-list {
+    grid-template-columns: repeat(2, minmax(auto, 360px));
+  }
+}
+
+/* -- Applies to screens smaller than 640 px */
+@media screen and (max-width:640px) {
+  .cards-list {
+    grid-template-columns: minmax(auto, 360px);
+  }
+}
